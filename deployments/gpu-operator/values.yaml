@@ -376,9 +376,9 @@ dcgmExporter:
   # the contents of "data" must be in CSV format and be valid DCGM Exporter metric configurations.
   config:
     name: custom-dcgm-exporter-metrics
+    # Placeholder để dcgm pull nội dung từ custom
     create: true
     # Use external csv for better readability and maintainability of the metric list, especially when the list is long.
-    data:    {{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
     # data: |-
       # Format
       # If line starts with a '#' it is considered a comment

@@ -1,8 +1,8 @@
 apiVersion: v2
-name: gpu-operator
-version: v1.0.0-devel
+name: potato-gpu-operator
+version: v1.0.0-potato
 kubeVersion: ">= 1.16.0-0"
-description: NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes
+description: NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes (Potato Edition for Local Specific Reasons)
 appVersion: "main-latest"
 icon: https://assets.nvidiagrid.net/ngc/logos/GPUoperator.png
 sources:
@@ -16,6 +16,7 @@ keywords:
   - deep learning
   - monitoring
   - tesla
+  - potato
 
 dependencies:
   - name: node-feature-discovery

@@ -1,0 +1,13 @@
+{{- range .Values.driver_crd }}
+apiVersion: nvidia.com/v1alpha1
+kind: NvidiaDriver
+metadata:
+  name: {{ .name }}
+spec:
+  driverConfig:
+    version: {{ .version | quote }}
+    kernelModuleType: {{ .kernelModuleType | default "open-source" }}
+  nodeSelector:
+    {{- toYaml .nodeSelector | nindent 4 }}
+---
+{{- end }}

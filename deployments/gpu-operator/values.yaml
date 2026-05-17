@@ -131,11 +131,28 @@ operator:
 mig:
   strategy: single
 
+
+driver_crd:
+  - name: driver-cuda12
+    version: "575.57.08"
+    kernelModuleType: "open-source"
+    nodeSelector:
+      nvidia.com/gpu.family:
+        operator: In
+        values: ["ampere", "turing", "ada", "hopper"]
+
+  - name: driver-cuda13
+    version: "595.58.03"
+    kernelModuleType: "open-source"
+    nodeSelector:
+      nvidia.com/gpu.family: "blackwell"
+    
 driver:
   enabled: true
   nvidiaDriverCRD:
-    enabled: false
-    deployDefaultCR: true
+    enabled: true
+    # Disable để sử dụng CR theo drivers CRD
+    deployDefaultCR: false
     driverType: gpu
     nodeSelector: {}
   kernelModuleType: "auto"
@@ -292,6 +309,18 @@ dcgm:
   env: []
   resources: {}
   hostNetwork: false
+  # 2. Sử dụng args để chạy engine kèm theo lệnh test profiling
+  # Chúng ta chạy nv-hostengine ở chế độ background, chờ 5s rồi chạy tester
+  args:
+    - "/bin/sh"
+    - "-c"
+    - |
+      /usr/bin/nv-hostengine & 
+      sleep 5;
+      echo "Starting Profiling Test (Tensor Cores)...";
+      /usr/bin/dcgmproftester12 --no-dcgm-validation -t 1004 -d 15;
+      echo "Profiling Test Finished. Keeping hostengine alive...";
+      wait
 
 dcgmExporter:
   enabled: true
@@ -300,21 +329,24 @@ dcgmExporter:
   image: dcgm-exporter
   version: 4.5.3-4.8.2-distroless
   imagePullPolicy: IfNotPresent
-  env: []
+  env: 
+    # Tính năng mới cho phép query thời gian thực để debug throttle
+    - DCGM_EXPORTER_ENABLE_PPROF: "true"
   resources: {}
-  hostPID: false
+  hostPID: true
   hostNetwork: false
   # HPC job mapping configuration for correlating GPU metrics with HPC workload manager jobs
   # This is used by HPC workload managers like Slurm to label GPU metrics with job IDs
-  # hpcJobMapping:
-  #   enabled: true
-  #   directory: /var/lib/dcgm-exporter/job-mapping
+  hpcJobMapping:
+    enabled: true
+    directory: /var/lib/dcgm-exporter/job-mapping
   # Enrich GPU metrics with pod metadata (UID, labels).
   # Both flags are opt-in. When either is true, the operator creates a
   # cluster-scoped ClusterRole/ClusterRoleBinding granting pods get/list/watch.
   # Use podLabelAllowlistRegex to bound Prometheus cardinality.
-  enablePodLabels: false
-  enablePodUID: false
+  enablePodLabels: true
+  enablePodUID: true
+  # Khi có quá nhiều pod label, thì phải lọc label :) 
   # podLabelAllowlistRegex:
   #   - "^app$"
   #   - "^kueue\\.x-k8s\\.io/.*$"
@@ -342,9 +374,11 @@ dcgmExporter:
   # Use "data" to build an integrated ConfigMap from a set of custom metrics as
   # part of the chart. An example of some custom metrics are shown below. Note that
   # the contents of "data" must be in CSV format and be valid DCGM Exporter metric configurations.
-  # config:
-    # name: custom-dcgm-exporter-metrics
-    # create: true
+  config:
+    name: custom-dcgm-exporter-metrics
+    create: true
+    # Use external csv for better readability and maintainability of the metric list, especially when the list is long.
+    data:    {{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
     # data: |-
       # Format
       # If line starts with a '#' it is considered a comment

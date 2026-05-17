@@ -1,0 +1,27 @@
+# Cấu hình cho dòng Ampere (A100, A30, RTX 30-series)
+apiVersion: nvidia.com/v1alpha1
+kind: Driver
+metadata:
+  name: driver-cuda12
+spec:
+  driverConfig:
+    # Production releases cho Stable Production
+    version: "575.57.08"
+    kernelModuleType: "open-source" # Khuyên dùng cho Ampere
+  nodeSelector:
+    nvidia.com/gpu.family:
+      operator: In
+      values: ["ampere", "turing", "ada", "hopper"]
+---
+# Cấu hình cho dòng Blackwell (B100, B200) - Sắp ra mắt/Mới nhất
+apiVersion: nvidia.com/v1alpha1
+kind: Driver
+metadata:
+  name: driver-cuda13
+spec:
+  driverConfig:
+    # Đối với dòng Blackwell, sử dụng 580++
+    version: "595.58.03" # Yêu cầu driver nhánh mới nhất
+    kernelModuleType: "open-source"
+  nodeSelector:
+    nvidia.com/gpu.family: "blackwell"

@@ -9,6 +9,6 @@ metadata:
     {{- include "gpu-operator.labels" . | nindent 4 }}
 data:
   dcgm-metrics.csv: |
-{{- .Values.dcgmExporter.config.data | nindent 4 }}
+  {{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
 {{- end }}
 {{- end }}

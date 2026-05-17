@@ -135,7 +135,7 @@ mig:
 driver_crd:
   - name: driver-cuda12
     version: "575.57.08"
-    kernelModuleType: "open-source"
+    kernelModuleType: "auto"
     nodeSelector:
       nvidia.com/gpu.family:
         operator: In
@@ -143,7 +143,7 @@ driver_crd:
 
   - name: driver-cuda13
     version: "595.58.03"
-    kernelModuleType: "open-source"
+    kernelModuleType: "auto"
     nodeSelector:
       nvidia.com/gpu.family: "blackwell"
     

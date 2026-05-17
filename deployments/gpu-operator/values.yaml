@@ -331,7 +331,8 @@ dcgmExporter:
   imagePullPolicy: IfNotPresent
   env: 
     # Tính năng mới cho phép query thời gian thực để debug throttle
-    - DCGM_EXPORTER_ENABLE_PPROF: "true"
+    - name: DCGM_EXPORTER_ENABLE_PPROF
+      value: "true"
   resources: {}
   hostPID: true
   hostNetwork: false

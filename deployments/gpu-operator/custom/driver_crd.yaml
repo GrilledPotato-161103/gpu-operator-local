@@ -1,3 +1,6 @@
+{{- if .Values.driver.enabled }}
+{{- if and .Values.driver.nvidiaDriverCRD.enabled .Values.driver.nvidiaDriverCRD.deployDefaultCR }}
+
 {{- range .Values.driver_crd }}
 apiVersion: nvidia.com/v1alpha1
 kind: NvidiaDriver
@@ -10,4 +13,7 @@ spec:
   nodeSelector:
     {{- toYaml .nodeSelector | nindent 4 }}
 ---
+{{- end }}
+
+{{- end }}
 {{- end }}

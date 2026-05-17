@@ -1,14 +1,15 @@
 {{- if .Values.driver.enabled }}
 {{- if and .Values.driver.nvidiaDriverCRD.enabled .Values.driver.nvidiaDriverCRD.deployDefaultCR }}
+{{- range .Values.driver_crd }}
 apiVersion: nvidia.com/v1alpha1
 kind: NVIDIADriver
 metadata:
-  name: default
+  name: {{ .name }}
 spec:
   repository: {{ .Values.driver.repository }}
   image: {{ .Values.driver.image }}
-  version: {{ .Values.driver.version }}
-  kernelModuleType: {{ .Values.driver.kernelModuleType }}
+  version: {{ .version | quote }}
+  kernelModuleType: {{ .kernelModuleType | default "auto" }}
   usePrecompiled: {{ .Values.driver.usePrecompiled }}
   driverType: {{ .Values.driver.nvidiaDriverCRD.driverType | default "gpu" }}
   {{- if .Values.daemonsets.annotations }}
@@ -17,9 +18,8 @@ spec:
   {{- if .Values.daemonsets.labels }}
   labels: {{ toYaml .Values.daemonsets.labels | nindent 6 }}
   {{- end }}
-  {{- if .Values.driver.nvidiaDriverCRD.nodeSelector }}
-  nodeSelector: {{ toYaml .Values.driver.nvidiaDriverCRD.nodeSelector | nindent 6 }}
-  {{- end }}
+  # Bật tự động nodeSelector, nếu muốn forall có thể để nodeSelector = true
+  nodeSelector: {{- toYaml .nodeSelector | nindent 4 }}
   {{- if .Values.driver.imagePullSecrets }}
   imagePullSecrets: {{ toYaml .Values.driver.imagePullSecrets | nindent 4 }}
   {{- end }}
@@ -127,5 +127,7 @@ spec:
     args: {{ toYaml .Values.gdrcopy.args | nindent 6 }}
     {{- end  }}
   {{- end }}
+
+{{- end }}
 {{- end }}
 {{- end }}

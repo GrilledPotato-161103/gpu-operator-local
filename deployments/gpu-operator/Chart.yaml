@@ -1,5 +1,5 @@
 apiVersion: v2
-name: potato-gpu-operator
+name: gpu-operator
 version: v1.0.0-potato
 kubeVersion: ">= 1.16.0-0"
 description: NVIDIA GPU Operator creates/configures/manages GPUs atop Kubernetes (Potato Edition for Local Specific Reasons)

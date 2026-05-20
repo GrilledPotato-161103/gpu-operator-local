@@ -10,8 +10,8 @@ metadata:
 data:
   dcgm-metrics.csv: |
   {{- if .Values.dcgmExporter.config.data }}
-    {{ .Values.dcgmExporter.config.data | nindent 4 }}
+{{ .Values.dcgmExporter.config.data | nindent 4 }}
   {{- else }}
-    {{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
-{{- end }}
+{{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
+  {{- end }}
 {{- end }}

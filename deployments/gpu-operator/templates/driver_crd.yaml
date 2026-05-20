@@ -10,8 +10,6 @@ spec:
   env: []
   repository: nvcr.io/nvidia
   imagePullPolicy: IfNotPresent
-  imagePullSecrets: []
-  manager: {}
   nodeSelector:
     {{- toYaml .nodeSelector | nindent 4 }}
   version: {{ .version | quote }}

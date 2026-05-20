@@ -1,5 +1,5 @@
 {{- if .Values.dcgmExporter.config }}
-{{- if and (.Values.dcgmExporter.config.create) (not (empty .Values.dcgmExporter.config.data)) }}
+{{- if .Values.dcgmExporter.config.create}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,6 +9,9 @@ metadata:
     {{- include "gpu-operator.labels" . | nindent 4 }}
 data:
   dcgm-metrics.csv: |
-  {{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
+  {{- if .Values.dcgmExporter.config.data }}
+    {{ .Values.dcgmExporter.config.data | nindent 4 }}
+  {{- else }}
+    {{ .Files.Get "custom/dcgm-exporter/dcgm-metrics.csv" | indent 4 }}
 {{- end }}
 {{- end }}

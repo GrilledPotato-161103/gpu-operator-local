@@ -143,7 +143,7 @@ driver_crd:
     kernelModuleType: "auto"
     nodeSelector:
       driver.config: "cuda13"
-      
+
 driver:
   enabled: true
   nvidiaDriverCRD:
@@ -377,14 +377,7 @@ dcgmExporter:
     # Placeholder để dcgm pull nội dung từ custom
     create: true
     # Use external csv for better readability and maintainability of the metric list, especially when the list is long.
-    # data: |-
-      # Format
-      # If line starts with a '#' it is considered a comment
-      # DCGM FIELD, Prometheus metric type, help message
-
-      # Clocks
-      # DCGM_FI_DEV_SM_CLOCK,  gauge, SM clock frequency (in MHz).
-      # DCGM_FI_DEV_MEM_CLOCK, gauge, Memory clock frequency (in MHz).
+    data: []
 gfd:
   enabled: true
   repository: nvcr.io/nvidia

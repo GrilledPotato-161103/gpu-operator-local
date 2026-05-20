@@ -1,0 +1,22 @@
+{{- if .Values.driver.enabled }}
+{{- if and .Values.driver.nvidiaDriverCRD.enabled (not .Values.driver.nvidiaDriverCRD.deployDefaultCR) }}
+{{- range .Values.driver_crd }}
+apiVersion: nvidia.com/v1alpha1
+kind: NvidiaDriver
+metadata:
+  name: {{ .name }}
+spec:
+  driverType: gpu
+  env: []
+  repository: nvcr.io/nvidia
+  imagePullPolicy: IfNotPresent
+  imagePullSecrets: []
+  manager: {}
+  nodeSelector:
+    {{- toYaml .nodeSelector | nindent 4 }}
+  version: {{ .version | quote }}
+  kernelModuleType: {{ .kernelModuleType | default "auto" }}
+---
+{{- end }}
+{{- end }}
+{{- end }}

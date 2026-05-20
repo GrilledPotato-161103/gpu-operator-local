@@ -1,5 +1,5 @@
 {{- if .Values.driver.enabled }}
-{{- if and .Values.driver.nvidiaDriverCRD.enabled (not .Values.driver.nvidiaDriverCRD.deployDefaultCR) }}
+{{- if and .Values.driver.nvidiaDriverCRD.enabled}}
 {{- range .Values.driver_crd }}
 apiVersion: nvidia.com/v1alpha1
 kind: NVIDIADriver

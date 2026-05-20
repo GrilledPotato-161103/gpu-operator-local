@@ -148,8 +148,7 @@ driver:
   enabled: true
   nvidiaDriverCRD:
     enabled: true
-    # Disable để sử dụng CR theo drivers CRD
-    deployDefaultCR: false
+    deployDefaultCR: true
     driverType: gpu
     nodeSelector: {}
   kernelModuleType: "auto"

@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.dcgmExporter.config.name }}
+  name: {{ .Values.dcgmExporter.config.name | default "dcgm-exporter-config"}}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "gpu-operator.labels" . | nindent 4 }}

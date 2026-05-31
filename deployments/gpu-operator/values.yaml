@@ -136,16 +136,17 @@ driver_crd:
     version: "575.57.08"
     kernelModuleType: "auto"
     nodeSelector:
-      driver.config: "cuda12"
+      gpu.driver.config: "cuda12"
 
   - name: driver-cuda13
     version: "595.58.03"
     kernelModuleType: "auto"
     nodeSelector:
-      driver.config: "cuda13"
+      gpu.driver.config: "cuda13"
 
 driver:
   enabled: true
+  privileged: true
   nvidiaDriverCRD:
     enabled: true
     deployDefaultCR: true

@@ -8,8 +8,7 @@ metadata:
 spec:
   driverType: gpu
   env: []
-  registry: nvcr.io
-  repository: nvidia
+  repository: nvcr.io/nvidia
   image: driver
   imagePullPolicy: IfNotPresent
   nodeSelector:

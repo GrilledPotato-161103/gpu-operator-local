@@ -145,7 +145,7 @@ driver_crd:
       gpu.driver.config: "cuda13"
 
 driver:
-  enabled: true
+  enabled: true 
   privileged: true
   nvidiaDriverCRD:
     enabled: true

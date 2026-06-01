@@ -8,7 +8,9 @@ metadata:
 spec:
   driverType: gpu
   env: []
-  repository: nvcr.io/nvidia
+  registry: nvcr.io
+  repository: nvidia
+  image: driver
   imagePullPolicy: IfNotPresent
   nodeSelector:
     {{- toYaml .nodeSelector | nindent 4 }}

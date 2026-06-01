@@ -139,7 +139,7 @@ driver_crd:
       gpu.driver.config: "cuda12"
 
   - name: driver-cuda13
-    version: "595.58.03"
+    version: "595.71.05"
     kernelModuleType: "auto"
     nodeSelector:
       gpu.driver.config: "cuda13"

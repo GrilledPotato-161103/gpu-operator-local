@@ -149,7 +149,7 @@ driver:
   privileged: true
   nvidiaDriverCRD:
     enabled: true
-    deployDefaultCR: true
+    deployDefaultCR: false
     driverType: gpu
     nodeSelector: {}
   kernelModuleType: "auto"
@@ -162,7 +162,7 @@ driver:
   usePrecompiled: false
   repository: nvcr.io/nvidia
   image: driver
-  version: "575.57.08"
+  version: "580.159.04"
   imagePullPolicy: IfNotPresent
   imagePullSecrets: []
   startupProbe:

@@ -214,7 +214,11 @@ driver:
     # to ensure k8s-driver-manager stays compatible with gpu-operator starting from v24.3.0
     version: v0.10.0
     imagePullPolicy: IfNotPresent
-    env: []
+    # Configuration for Dynamic Resource Allocation (DRA) feature in driver manager. DRA allows the driver manager to dynamically allocate resources for driver installation and management, which can help improve stability and reduce resource contention during driver upgrades.
+    env:
+      # Node selector to choose DRA over Device Plugin for GPU Allocation.
+      - name: ODE_LABEL_FOR_GPU_POD_EVICTION
+        value: "nvidia.com/dra-kubelet-plugin"
   env: []
   resources: {}
   # Private mirror repository configuration
@@ -250,7 +254,7 @@ toolkit:
   hostNetwork: false
 
 devicePlugin:
-  enabled: true
+  enabled: false
   repository: nvcr.io/nvidia
   image: k8s-device-plugin
   version: v0.19.1
